@@ -23,7 +23,11 @@ class EntriesView(viewsets.ModelViewSet):
         if notesParam is not None:
             queryset = queryset.filter(notes__icontains=notesParam)
         if signedOutParam is not None:
+            if(signedOutParam == 'true' or signedOutParam == 'True'):
+                signedOutParam = True
+            elif(signedOutParam == 'false' or signedOutParam == 'False'):
+                signedOutParam = False
             queryset = queryset.filter(is_signout=signedOutParam) 
         if signedOutDateParam is not None:
-            queryset = queryset.filter(signout_date__icontains=signedOutDateParam) 
+            queryset = queryset.filter(signout_date__icontains=signedOutDateParam).filter(is_signout=True) 
         return queryset
